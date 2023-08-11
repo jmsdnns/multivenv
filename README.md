@@ -70,7 +70,7 @@ maestral
 mathhomework
 ```
 
-## Install
+## How To Install It
 
 Download a copy of [multienv.sh](multivenv.sh) and source it in your shell.
 
