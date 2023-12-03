@@ -107,12 +107,11 @@ function cdvenv() {
 
 # tab completions
 
-function _listvenvs()
-{
+function _listvenvs() {
     local cur
     COMPREPLY=()
     cur=${COMP_WORDS[COMP_CWORD]}
-    COMPREPLY=($( compgen -W "$(ls $MULTIVENV_HOME)" -- $cur ) )
+    COMPREPLY=($( compgen -W "$(\ls $MULTIVENV_HOME)" -- $cur ) )
 }
 
 complete -F _listvenvs usevenv
