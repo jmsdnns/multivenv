@@ -4,7 +4,7 @@ export MULTIVENV_HOME=$HOME/.multivenv
 export MULTIVENV_PYTHON="python3"
 
 function _multivenv_verify() {
-    if [[ -z $MULTIVENV_HOME ]]; then
+    if [[ ! -d $MULTIVENV_HOME ]]; then
         mkdir $MULTIVENV_HOME
     fi
 
@@ -69,7 +69,8 @@ function rmvenv() {
     fi
 
     read -r -p "Are you sure? [y/N] " response
-    response=${response,,} # tolower
+    # response=${response,,} # tolower
+    response=$(echo $response | tr '[:upper:]' '[:lower:]')
     if [[ "$response" =~ ^(yes|y)$ ]]; then
         declare PRIOR_DIR=$(pwd)
         cd $MULTIVENV_HOME
