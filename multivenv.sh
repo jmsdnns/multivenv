@@ -86,7 +86,11 @@ function lsvenvs() {
 function cdvenv() {
     _multivenv_verify
 
-    if [[ -z $1 ]]; then
+    if [[ -n $VIRTUAL_ENV && -z $1 ]]; then
+        # If VIRTUAL_ENV is set and no venv argument is given, 
+        # change directory to the active virtual environment
+        cd $VIRTUAL_ENV || return 1
+    elif [[ -z $1 ]]; then
         echo "ERROR: No venv name given"
         return 1
     elif [[ ! -d $MULTIVENV_HOME/$1 ]]; then
