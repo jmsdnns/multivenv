@@ -78,7 +78,7 @@ function lsvenvs() {
     _multivenv_verify
 
     # Every directory in MULTIVENV_HOME is a venv
-    for FILE in $(ls $MULTIVENV_HOME); do
+    for FILE in $(\ls $MULTIVENV_HOME); do
         echo $FILE
     done
 }
