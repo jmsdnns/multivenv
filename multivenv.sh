@@ -39,9 +39,7 @@ function mkvenv() {
     if [[ -z $1 ]]; then
         echo "ERROR: No venv name given"
         return 1
-    fi
-
-    if [[ -d $MULTIVENV_HOME/$1 ]]; then
+    elif [[ -d $MULTIVENV_HOME/$1 ]]; then
         echo "ERROR: venv name already in use"
         return 1
     fi
@@ -56,26 +54,20 @@ function rmvenv() {
     if [[ -z $1 ]]; then
         echo "ERROR: No venv name given"
         return 1
-    fi
-
-    if [[ ! -d $MULTIVENV_HOME/$1 ]]; then
+    elif [[ ! -d $MULTIVENV_HOME/$1 ]]; then
         echo "ERROR: venv does not exist"
         return 1
-    fi
-
-    if [[ $VIRTUAL_ENV == $MULTIVENV_HOME/$1 ]]; then
+    elif [[ $VIRTUAL_ENV == $MULTIVENV_HOME/$1 ]]; then
         echo "ERROR: cannot remove activate venv"
         return 1
     fi
 
     read -r -p "Are you sure? [y/N] " response
-    # response=${response,,} # tolower
     response=$(echo $response | tr '[:upper:]' '[:lower:]')
     if [[ "$response" =~ ^(yes|y)$ ]]; then
         declare PRIOR_DIR=$(pwd)
         cd $MULTIVENV_HOME
         rm -rf $1
-
         if [[ -d $PRIOR_DIR ]]; then
             cd $PRIOR_DIR
         fi
@@ -85,6 +77,7 @@ function rmvenv() {
 function lsvenvs() {
     _multivenv_verify
 
+    # Every directory in MULTIVENV_HOME is a venv
     for FILE in $(ls $MULTIVENV_HOME); do
         echo $FILE
     done
@@ -96,14 +89,13 @@ function cdvenv() {
     if [[ -z $1 ]]; then
         echo "ERROR: No venv name given"
         return 1
-    fi
-
-    if [[ ! -d $MULTIVENV_HOME/$1 ]]; then
+    elif [[ ! -d $MULTIVENV_HOME/$1 ]]; then
         echo "ERROR: venv does not exist"
         return 1
+    else
+        # If venv argument is given and it exists
+        cd $MULTIVENV_HOME/$1 || return 1
     fi
-
-    cd $MULTIVENV_HOME/$1
 }
 
 # tab completions
