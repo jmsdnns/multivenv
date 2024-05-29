@@ -14,7 +14,10 @@ function _multivenv_verify() {
 function usevenv() {
     _multivenv_verify
 
-    if [[ ! -d $MULTIVENV_HOME/$1 ]]; then
+    if [[ -z $1 ]]; then
+        echo "ERROR: No venv name given"
+        return 1
+    elif [[ ! -d $MULTIVENV_HOME/$1 ]]; then
         echo "ERROR: venv does not exist"
         return 1
     fi
